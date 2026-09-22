@@ -173,13 +173,13 @@ export const Checkout = () => {
           </div>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
-            {/* <button
+            <button
               onClick={() => navigate(`/order/${createdOrder.orderId}/track`)}
-              className="w-full sm:w-auto px-6 py-3.5 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-2xl shadow-lg shadow-orange-500/25 transition flex items-center justify-center gap-2"
+              className="w-full cursor-pointer sm:w-auto px-6 py-3.5 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-2xl shadow-lg shadow-orange-500/25 transition flex items-center justify-center gap-2"
             >
-              <span>Track Order Live</span>
+              <span>Order review</span>
               <ArrowRight className="w-4 h-4" />
-            </button> */}
+            </button>
             <Link
               to="/my-orders"
               className="w-full sm:w-auto px-6 py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold rounded-2xl transition flex items-center justify-center gap-2"
@@ -208,7 +208,7 @@ export const Checkout = () => {
                       type="button"
                       disabled={!!createdOrder}
                       onClick={() => setPaymentOption(m.id)}
-                      className={`w-full p-4 rounded-2xl border text-left transition flex items-center justify-between gap-3 ${
+                      className={`w-full cursor-pointer p-4 rounded-2xl border text-left transition flex items-center justify-between gap-3 ${
                         isSelected
                           ? 'border-orange-500 bg-orange-50/40 ring-2 ring-orange-500/20'
                           : 'border-slate-200 hover:border-slate-300'
@@ -244,7 +244,7 @@ export const Checkout = () => {
                   type="button"
                   disabled={loadingOrderCreation}
                   onClick={handleInitiateOrder}
-                  className="w-full mt-4 py-3.5 px-4 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-2xl shadow-lg shadow-orange-500/25 transition flex items-center justify-center gap-2"
+                  className=" cursor-pointer w-full mt-4 py-3.5 px-4 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-2xl shadow-lg shadow-orange-500/25 transition flex items-center justify-center gap-2"
                 >
                   {loadingOrderCreation ? (
                     <Loader2 className="w-4 h-4 animate-spin" />
@@ -289,7 +289,7 @@ export const Checkout = () => {
                       <button
                         type="button"
                         onClick={() => setSimulateOutcome('SUCCESS')}
-                        className={`p-3 rounded-xl border text-center font-bold transition ${
+                        className={`p-3 rounded-xl cursor-pointer border text-center font-bold transition ${
                           simulateOutcome === 'SUCCESS'
                             ? 'border-emerald-500 bg-emerald-50 text-emerald-800 ring-2 ring-emerald-500/20'
                             : 'border-slate-200 bg-slate-50 text-slate-600'
@@ -300,7 +300,7 @@ export const Checkout = () => {
                       <button
                         type="button"
                         onClick={() => setSimulateOutcome('FAILED')}
-                        className={`p-3 rounded-xl border text-center font-bold transition ${
+                        className={`p-3 rounded-xl border text-center font-bold transition cursor-pointer ${
                           simulateOutcome === 'FAILED'
                             ? 'border-rose-500 bg-rose-50 text-rose-800 ring-2 ring-rose-500/20'
                             : 'border-slate-200 bg-slate-50 text-slate-600'
@@ -325,7 +325,7 @@ export const Checkout = () => {
                         type="button"
                         disabled={processingPayment}
                         onClick={handleRetryPayment}
-                        className="w-full mt-2 py-2 px-3 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-xl transition flex items-center justify-center gap-2"
+                        className="w-full cursor-pointer mt-2 py-2 px-3 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-xl transition flex items-center justify-center gap-2"
                       >
                         {processingPayment ? (
                           <Loader2 className="w-3.5 h-3.5 animate-spin" />
@@ -342,7 +342,7 @@ export const Checkout = () => {
                       type="button"
                       disabled={processingPayment}
                       onClick={handleExecutePayment}
-                      className={`w-full py-3.5 px-4 font-bold rounded-2xl text-white shadow-xl transition flex items-center justify-center gap-2 ${
+                      className={`w-full cursor-pointer py-3.5 px-4 font-bold rounded-2xl text-white shadow-xl transition flex items-center justify-center gap-2 ${
                         simulateOutcome === 'SUCCESS'
                           ? 'bg-emerald-600 hover:bg-emerald-700 shadow-emerald-600/20'
                           : 'bg-rose-600 hover:bg-rose-700 shadow-rose-600/20'

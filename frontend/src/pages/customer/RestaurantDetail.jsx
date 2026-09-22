@@ -116,8 +116,12 @@ export const RestaurantDetail = () => {
         <div className="relative rounded-3xl overflow-hidden bg-slate-900 text-white shadow-xl">
           <div className="absolute inset-0 opacity-40">
             <img
-              src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1200&auto=format&fit=crop&q=80"
+              src={restaurant.imageUrl || "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1200&auto=format&fit=crop&q=80"}
               alt={restaurant.name}
+              onError={(e) => {
+                e.currentTarget.onerror = null;
+                e.currentTarget.src = "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1200&auto=format&fit=crop&q=80";
+              }}
               className="w-full h-full object-cover"
             />
           </div>
@@ -257,25 +261,25 @@ export const RestaurantDetail = () => {
                               <button
                                 onClick={() => handleAdd(item)}
                                 disabled={!item.isAvailable}
-                                className="px-5 py-2 rounded-xl text-xs font-bold bg-orange-50 text-orange-600 hover:bg-orange-600 hover:text-white border border-orange-200 transition shadow-sm flex items-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="px-5 py-2 rounded-xl cursor-pointer text-xs font-bold bg-orange-50 text-orange-600 hover:bg-orange-600 hover:text-white border border-orange-200 transition shadow-sm flex items-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed"
                               >
-                                <Plus className="w-3.5 h-3.5" />
+                                <Plus className="w-3.5 h-3.5 cursor-pointer" />
                                 {item.isAvailable ? 'Add to Cart' : 'Unavailable'}
                               </button>
                             ) : (
                               <div className="inline-flex items-center gap-3 bg-orange-600 text-white rounded-xl px-2 py-1 shadow-md shadow-orange-500/20">
                                 <button
                                   onClick={() => handleDecrement(item)}
-                                  className="p-1 hover:bg-orange-700 rounded-lg transition"
+                                  className="p-1 hover:bg-orange-700 rounded-lg transition cursor-pointer"
                                 >
-                                  <Minus className="w-3.5 h-3.5" />
+                                  <Minus className="w-3.5 h-3.5 cursor-pointer" />
                                 </button>
                                 <span className="text-xs font-black px-1">{quantityInCart}</span>
                                 <button
                                   onClick={() => handleIncrement(item)}
-                                  className="p-1 hover:bg-orange-700 rounded-lg transition"
+                                  className="p-1 hover:bg-orange-700 rounded-lg transition cursor-pointer"
                                 >
-                                  <Plus className="w-3.5 h-3.5" />
+                                  <Plus className="w-3.5 h-3.5 cursor-pointer" />
                                 </button>
                               </div>
                             )}
@@ -287,7 +291,7 @@ export const RestaurantDetail = () => {
                           <img
                             src={
                               item.imageUrl ||
-                              'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300&auto=format&fit=crop&q=80'
+                              'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&auto=format&fit=crop&q=80'
                             }
                             alt={item.name}
                             className="w-full h-full object-cover"

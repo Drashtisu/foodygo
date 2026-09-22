@@ -1,10 +1,15 @@
 import Restaurant from "../../../models/Restaurant.js";
 import User from "../../../models/User.js";
+import MenuItem from "../../../models/MenuItem.js";
 
 export const searchRestaurants = async (req, res, next) => {
   try {
     const { query, cuisine, city } = req.query;
     let filter = { isOpen: true };
+
+  
+    const restaurantsWithMenu = await MenuItem.distinct("restaurantId");
+    filter._id = { $in: restaurantsWithMenu };
 
     if (query) {
       filter.$or = [
@@ -39,7 +44,15 @@ export const searchRestaurants = async (req, res, next) => {
 
 export const getAllRestaurants = async (req, res, next) => {
   try {
-    const restaurants = await Restaurant.find().populate(
+    const { hasMenu } = req.query;
+    let filter = {};
+
+    if (hasMenu === "true") {
+      const restaurantsWithMenu = await MenuItem.distinct("restaurantId");
+      filter._id = { $in: restaurantsWithMenu };
+    }
+
+    const restaurants = await Restaurant.find(filter).populate(
       "ownerId",
       "name email phone"
     );
@@ -77,7 +90,7 @@ export const getRestaurantById = async (req, res, next) => {
 
 export const createRestaurant = async (req, res, next) => {
   try {
-    const { name, description, cuisine, address, phone } = req.body;
+    const { name, description, cuisine, address, phone, imageUrl } = req.body;
 
     const existingRestaurant = await Restaurant.findOne({ ownerId: req.user._id });
     if (existingRestaurant) {
@@ -94,6 +107,7 @@ export const createRestaurant = async (req, res, next) => {
       cuisine: Array.isArray(cuisine) ? cuisine : [cuisine],
       address,
       phone,
+      imageUrl: imageUrl || "",
     });
 
     res.status(201).json({

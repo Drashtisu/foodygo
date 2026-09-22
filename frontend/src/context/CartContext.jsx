@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   fetchCartThunk,
@@ -10,15 +11,24 @@ import {
 } from '../redux/slices/cartSlice';
 import { useAuth } from './AuthContext';
 import { useToast } from './ToastContext';
+import { UtensilsCrossed, Lock, Mail, Eye, EyeOff, Loader2, X, User } from 'lucide-react';
 
 const CartContext = createContext(null);
 
 export const CartProvider = ({ children }) => {
   const dispatch = useDispatch();
-  const { isAuthenticated, role } = useAuth();
+  const navigate = useNavigate();
+  const { isAuthenticated, role, login } = useAuth();
   const { showToast } = useToast();
   const { cart, items, restaurantId, cartCount, cartTotal, loading } = useSelector((state) => state.cart);
   const [conflictModal, setConflictModal] = useState(null);
+
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [pendingItem, setPendingItem] = useState(null);
+  const [authEmail, setAuthEmail] = useState('');
+  const [authPassword, setAuthPassword] = useState('');
+  const [authLoading, setAuthLoading] = useState(false);
+  const [showAuthPassword, setShowAuthPassword] = useState(false);
 
   const fetchCart = useCallback(async () => {
     if (!isAuthenticated || role !== 'customer') {
@@ -32,9 +42,59 @@ export const CartProvider = ({ children }) => {
     fetchCart();
   }, [fetchCart]);
 
+  const handleModalLogin = async (e) => {
+    e?.preventDefault();
+    if (!authEmail || !authPassword) {
+      showToast('Please enter your email and password', 'error');
+      return;
+    }
+    try {
+      setAuthLoading(true);
+      await login(authEmail, authPassword);
+      setShowAuthModal(false);
+      setAuthEmail('');
+      setAuthPassword('');
+      if (pendingItem) {
+        try {
+          await dispatch(addItemThunk({ menuItemId: pendingItem.menuItemId, quantity: pendingItem.quantity })).unwrap();
+          showToast('Item added to cart!', 'success');
+        } catch {
+          // slice handles error
+        }
+        setPendingItem(null);
+      }
+    } catch {
+      // toast shown in login
+    } finally {
+      setAuthLoading(false);
+    }
+  };
+
+  const handleQuickDemoLogin = async () => {
+    try {
+      setAuthLoading(true);
+      await login('customer@foodygo.com', 'Password@123');
+      setShowAuthModal(false);
+      if (pendingItem) {
+        try {
+          await dispatch(addItemThunk({ menuItemId: pendingItem.menuItemId, quantity: pendingItem.quantity })).unwrap();
+          showToast('Item added to cart!', 'success');
+        } catch {
+          // slice handles error
+        }
+        setPendingItem(null);
+      }
+    } catch {
+      // toast shown in login
+    } finally {
+      setAuthLoading(false);
+    }
+  };
+
   const addItem = async (menuItemId, quantity = 1, currentRestaurant = null) => {
     if (!isAuthenticated) {
-      showToast('Please sign in to add items to your cart.', 'info');
+      setPendingItem({ menuItemId, quantity, currentRestaurant });
+      setShowAuthModal(true);
       return { requiresAuth: true };
     }
 
@@ -140,17 +200,119 @@ export const CartProvider = ({ children }) => {
             <div className="mt-6 flex items-center justify-end gap-3">
               <button
                 onClick={conflictModal.onCancel}
-                className="px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 rounded-xl transition"
+                className="px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 rounded-xl transition cursor-pointer"
               >
                 Cancel
               </button>
               <button
                 onClick={conflictModal.onConfirm}
-                className="px-4 py-2 text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 rounded-xl transition shadow-md shadow-orange-500/20"
+                className="px-4 py-2 text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 rounded-xl transition shadow-md shadow-orange-500/20 cursor-pointer"
               >
                 Clear Cart & Add
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {showAuthModal && (
+        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in">
+          <div className="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl border border-slate-100 relative">
+            <button
+              onClick={() => {
+                setShowAuthModal(false);
+                setPendingItem(null);
+              }}
+              className="absolute top-5 right-5 p-1.5 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-xl transition cursor-pointer"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <div className="text-center mb-6">
+              <div className="w-14 h-14 mx-auto rounded-2xl bg-orange-600 text-white flex items-center justify-center shadow-lg shadow-orange-500/20 mb-3">
+                <UtensilsCrossed className="w-7 h-7" />
+              </div>
+              <h3 className="text-2xl font-black text-slate-900 tracking-tight">
+                Sign In Required
+              </h3>
+              <p className="text-xs text-slate-500 mt-1.5 leading-relaxed">
+                Please sign in or create an account to add delicious dishes to your cart and complete your order.
+              </p>
+            </div>
+
+            <form onSubmit={handleModalLogin} className="space-y-3.5 text-xs">
+              <div>
+                <label className="block font-bold text-slate-700 mb-1">Email Address</label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                    <Mail className="w-4 h-4" />
+                  </div>
+                  <input
+                    type="email"
+                    required
+                    value={authEmail}
+                    onChange={(e) => setAuthEmail(e.target.value)}
+                    placeholder="customer@foodygo.com"
+                    className="w-full pl-10 pr-4 cursor-pointer py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block font-bold text-slate-700 mb-1">Password</label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                    <Lock className="w-4 h-4" />
+                  </div>
+                  <input
+                    type={showAuthPassword ? 'text' : 'password'}
+                    required
+                    value={authPassword}
+                    onChange={(e) => setAuthPassword(e.target.value)}
+                    placeholder="••••••••"
+                    className="w-full pl-10 pr-10 py-2.5 cursor-pointer bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowAuthPassword(!showAuthPassword)}
+                    className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 cursor-pointer"
+                  >
+                    {showAuthPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                disabled={authLoading}
+                className="w-full py-3 px-4 bg-orange-600 cursor-pointer hover:bg-orange-700 text-white font-bold rounded-xl shadow-lg shadow-orange-500/25 transition flex items-center justify-center gap-2 cursor-pointer disabled:opacity-75"
+              >
+                {authLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
+                <span>Sign In & Add to Cart</span>
+              </button>
+
+              <div className="relative flex py-1 items-center">
+                <div className="flex-grow border-t border-slate-200"></div>
+                
+                <div className="flex-grow border-t border-slate-200"></div>
+              </div>
+
+          
+
+              <div className="pt-2 text-center text-[11px] text-slate-500">
+                Don't have an account?{' '}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowAuthModal(false);
+                    navigate('/register');
+                  }}
+                  className="font-bold text-orange-600 hover:underline cursor-pointer"
+                >
+                  Create an account (Sign Up)
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}

@@ -48,7 +48,7 @@ export const Home = () => {
     } catch {
 
       try {
-        const fallback = await getAllRestaurants();
+        const fallback = await getAllRestaurants({ hasMenu: 'true' });
         if (fallback?.success) setRestaurants(fallback.data || []);
       } catch {
       
@@ -81,7 +81,7 @@ export const Home = () => {
 
           
           <div className="mt-8 max-w-3xl mx-auto bg-white p-2.5 rounded-2xl sm:rounded-full shadow-xl shadow-orange-500/10 border border-slate-200 flex flex-col sm:flex-row items-center gap-2">
-            <div className="relative flex-1 w-full pl-3 flex items-center">
+            <div className="relative flex-1 w-full pl-3 flex items-center cursor-pointer">
               <Search className="w-5 h-5 text-orange-300 shrink-0" />
               <input
                 type="text"
@@ -95,7 +95,7 @@ export const Home = () => {
 
             <div className="h-6 w-px bg-slate-200 hidden sm:block" />
 
-            <div className="relative w-full sm:w-48 pl-3 flex items-center">
+            <div className="relative w-full sm:w-48 pl-3 flex items-center cursor-pointer">
            <MapPinCheckInside className='text-orange-300' />
               <input
                 type="text"
@@ -108,7 +108,7 @@ export const Home = () => {
 
             <button
               onClick={fetchRestaurants}
-              className="w-full sm:w-auto px-6 py-3 rounded-xl sm:rounded-full bg-orange-600 hover:bg-orange-700 text-white font-bold text-sm shadow-md shadow-orange-500/25 transition shrink-0"
+              className="w-full sm:w-auto px-6 py-3 rounded-xl sm:rounded-full bg-orange-600 hover:bg-orange-700 text-white cursor-pointer font-bold text-sm shadow-md shadow-orange-500/25 transition shrink-0"
             >
               Find Food
             </button>
@@ -209,8 +209,12 @@ export const Home = () => {
                 
                   <div className="relative h-48 bg-slate-100 overflow-hidden">
                     <img
-                      src={`https://images.unsplash.com/photo-1636405189493-181ecf851006?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fHJlc3RhdXJhbnQlNUN8ZW58MHx8MHx8fDA%3D`}
+                      src={rest.imageUrl || 'https://images.unsplash.com/photo-1636405189493-181ecf851006?w=500&auto=format&fit=crop&q=60'}
                       alt={rest.name}
+                      onError={(e) => {
+                        e.currentTarget.onerror = null;
+                        e.currentTarget.src = 'https://images.unsplash.com/photo-1636405189493-181ecf851006?w=500&auto=format&fit=crop&q=60';
+                      }}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />

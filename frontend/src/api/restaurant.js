@@ -1,7 +1,11 @@
 import api from './client';
 
-export const getAllRestaurants = async () => {
-  const response = await api.get('/restaurants');
+export const getAllRestaurants = async (params = {}) => {
+  const searchParams = new URLSearchParams();
+  if (params?.hasMenu) searchParams.append('hasMenu', params.hasMenu);
+  const queryString = searchParams.toString();
+  const url = queryString ? `/restaurants?${queryString}` : '/restaurants';
+  const response = await api.get(url);
   return response.data;
 };
 

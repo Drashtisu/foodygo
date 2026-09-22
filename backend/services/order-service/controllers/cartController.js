@@ -73,17 +73,24 @@ export const addToCart = async (req, res, next) => {
 
     if (existingItemIndex > -1) {
       cart.items[existingItemIndex].quantity += Number(quantity);
+      if (!cart.items[existingItemIndex].imageUrl && menuItem.imageUrl) {
+        cart.items[existingItemIndex].imageUrl = menuItem.imageUrl;
+      }
     } else {
       cart.items.push({
         menuItemId: menuItem._id,
         name: menuItem.name,
         quantity: Number(quantity),
         price: menuItem.price,
+        imageUrl: menuItem.imageUrl || "",
       });
     }
 
     cart.calculateTotal();
     await cart.save();
+
+    await cart.populate("restaurantId", "name address phone");
+    await cart.populate("items.menuItemId", "name price category imageUrl");
 
     res.status(200).json({
       success: true,
@@ -131,6 +138,9 @@ export const updateCartItem = async (req, res, next) => {
     cart.calculateTotal();
     await cart.save();
 
+    await cart.populate("restaurantId", "name address phone");
+    await cart.populate("items.menuItemId", "name price category imageUrl");
+
     res.status(200).json({
       success: true,
       message: "Cart updated successfully",
@@ -163,6 +173,9 @@ export const removeFromCart = async (req, res, next) => {
 
     cart.calculateTotal();
     await cart.save();
+
+    await cart.populate("restaurantId", "name address phone");
+    await cart.populate("items.menuItemId", "name price category imageUrl");
 
     res.status(200).json({
       success: true,

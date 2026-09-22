@@ -51,7 +51,7 @@ export const Cart = () => {
           if (defaultAddr) setSelectedAddressId(defaultAddr._id);
         }
       } catch {
-        // error
+  
       } finally {
         setLoadingAddresses(false);
       }
@@ -134,16 +134,16 @@ export const Cart = () => {
 
         <button
           onClick={clear}
-          className="px-3.5 py-1.5 text-xs font-semibold text-rose-600 hover:bg-rose-50 rounded-xl transition flex items-center gap-1.5"
+          className="px-3.5 py-1.5 text-xs font-semibold text-rose-600 hover:bg-rose-50 rounded-xl transition flex items-center gap-1.5 cursor-pointer" 
         >
           <Trash2 className="w-3.5 h-3.5" /> Clear Cart
         </button>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-        {/* Left Side: Cart items & Address selection */}
+    
         <div className="lg:col-span-7 space-y-8">
-          {/* Cart items card */}
+        
           <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-100 shadow-sm space-y-4">
             <h2 className="text-lg font-black text-slate-900 pb-3 border-b border-slate-100">
               Cart Items ({items.length})
@@ -178,25 +178,25 @@ export const Cart = () => {
                     </div>
 
                     <div className="flex items-center gap-4 shrink-0">
-                      {/* Quantity switcher */}
+                  
                       <div className="flex items-center gap-2 bg-slate-100 rounded-xl px-2 py-1">
                         <button
                           onClick={() => {
                             if (item.quantity === 1) removeItem(itemId);
                             else updateQuantity(itemId, item.quantity - 1);
                           }}
-                          className="p-1 hover:bg-slate-200 rounded-lg text-slate-600"
+                          className="p-1 hover:bg-slate-200 rounded-lg text-slate-600 cursor-pointer"
                         >
-                          <Minus className="w-3.5 h-3.5" />
+                          <Minus className="w-3.5 h-3.5 " />
                         </button>
                         <span className="text-xs font-black text-slate-900 w-5 text-center">
                           {item.quantity}
                         </span>
                         <button
                           onClick={() => updateQuantity(itemId, item.quantity + 1)}
-                          className="p-1 hover:bg-slate-200 rounded-lg text-slate-600"
+                          className="p-1  hover:bg-slate-200 rounded-lg text-slate-600 cursor-pointer"
                         >
-                          <Plus className="w-3.5 h-3.5" />
+                          <Plus className="w-3.5 h-3.5 " />
                         </button>
                       </div>
 
@@ -206,9 +206,9 @@ export const Cart = () => {
 
                       <button
                         onClick={() => removeItem(itemId)}
-                        className="text-slate-400 hover:text-rose-600 p-1"
+                        className="text-slate-400 hover:text-rose-600 p-1 cursor-pointer"
                       >
-                        <Trash2 className="w-4 h-4" />
+                        <Trash2 className="w-4 h-4 cursor-pointer" />
                       </button>
                     </div>
                   </div>
@@ -217,10 +217,10 @@ export const Cart = () => {
             </div>
           </div>
 
-          {/* Delivery Address Card */}
+
           <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-100 shadow-sm space-y-4">
             <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 cursor-pointer">
                 <MapPin className="w-5 h-5 text-orange-600" />
                 <h2 className="text-lg font-black text-slate-900">
                   Select Delivery Address
@@ -230,7 +230,7 @@ export const Cart = () => {
               <button
                 type="button"
                 onClick={() => setShowAddressModal(true)}
-                className="text-xs font-bold text-orange-600 hover:text-orange-700 flex items-center gap-1"
+                className="text-xs font-bold text-orange-600 hover:text-orange-700 flex items-center gap-1 cursor-pointer"
               >
                 <PlusCircle className="w-4 h-4" /> Add New
               </button>
@@ -245,7 +245,7 @@ export const Cart = () => {
                 <p className="text-xs text-slate-500 mb-3">No delivery addresses saved yet.</p>
                 <button
                   onClick={() => setShowAddressModal(true)}
-                  className="px-4 py-2 bg-orange-50 text-orange-600 font-bold text-xs rounded-xl hover:bg-orange-100 transition"
+                  className="px-4 py-2 bg-orange-50 text-orange-600 font-bold text-xs rounded-xl hover:bg-orange-100 transition cursor-pointer"
                 >
                   + Add Delivery Address
                 </button>
@@ -285,7 +285,7 @@ export const Cart = () => {
           </div>
         </div>
 
-        {/* Right Side: Bill Breakdown & Proceed */}
+      
         <div className="lg:col-span-5 sticky top-24 space-y-4">
           <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-100 shadow-sm space-y-5">
             <h2 className="text-lg font-black text-slate-900 pb-3 border-b border-slate-100">
@@ -313,7 +313,7 @@ export const Cart = () => {
 
             <button
               onClick={handleProceedToCheckout}
-              className="w-full py-3.5 px-4 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-2xl shadow-xl shadow-orange-500/25 transition flex items-center justify-center gap-2 group"
+              className="cursor-pointer w-full py-3.5 px-4 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-2xl shadow-xl shadow-orange-500/25 transition flex items-center justify-center gap-2 group"
             >
               <span>Proceed to Checkout</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -327,7 +327,7 @@ export const Cart = () => {
         </div>
       </div>
 
-      {/* Add Address Modal */}
+   
       {showAddressModal && (
         <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-100">
@@ -350,18 +350,23 @@ export const Cart = () => {
                     required
                     value={newAddress.fullName}
                     onChange={(e) => setNewAddress({ ...newAddress, fullName: e.target.value })}
-                    className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl"
+                    className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl cursor-pointer"
                   />
                 </div>
                 <div>
                   <label className="block font-bold text-slate-700 mb-1">Phone Number</label>
-                  <input
-                    type="tel"
-                    required
-                    value={newAddress.phone}
-                    onChange={(e) => setNewAddress({ ...newAddress, phone: e.target.value })}
-                    className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl"
-                  />
+                 <input
+  type="tel"
+  required
+  value={newAddress.phone}
+  maxLength={10}
+  inputMode="numeric"
+  onChange={(e) => {
+    const value = e.target.value.replace(/\D/g, "");
+    setNewAddress({ ...newAddress, phone: value });
+  }}
+  className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl cursor-pointer"
+/>
                 </div>
               </div>
 
@@ -373,7 +378,7 @@ export const Cart = () => {
                   value={newAddress.street}
                   onChange={(e) => setNewAddress({ ...newAddress, street: e.target.value })}
                   placeholder="Flat / House no, Building, Street"
-                  className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl"
+                  className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl cursor-pointer"
                 />
               </div>
 
@@ -385,7 +390,7 @@ export const Cart = () => {
                     required
                     value={newAddress.city}
                     onChange={(e) => setNewAddress({ ...newAddress, city: e.target.value })}
-                    className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl"
+                    className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl cursor-pointer"
                   />
                 </div>
                 <div>
@@ -395,19 +400,28 @@ export const Cart = () => {
                     required
                     value={newAddress.state}
                     onChange={(e) => setNewAddress({ ...newAddress, state: e.target.value })}
-                    className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl"
+                    className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl cursor-pointer"
                   />
                 </div>
                 <div>
-                  <label className="block font-bold text-slate-700 mb-1">Postal Code</label>
-                  <input
-                    type="text"
-                    required
-                    value={newAddress.postalCode}
-                    onChange={(e) => setNewAddress({ ...newAddress, postalCode: e.target.value })}
-                    className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl"
-                  />
-                </div>
+  <label className="block font-bold text-slate-700 mb-1">
+    Postal Code
+  </label>
+
+  <input
+    type="text"
+    required
+    value={newAddress.postalCode}
+    inputMode="numeric"
+    onChange={(e) =>
+      setNewAddress({
+        ...newAddress,
+        postalCode: e.target.value.replace(/\D/g, ""),
+      })
+    }
+    className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl cursor-pointer"
+  />
+</div>
               </div>
 
               <div>
@@ -417,7 +431,7 @@ export const Cart = () => {
                   value={newAddress.landmark}
                   onChange={(e) => setNewAddress({ ...newAddress, landmark: e.target.value })}
                   placeholder="Near central park"
-                  className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl"
+                  className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl cursor-pointer"
                 />
               </div>
 
@@ -425,14 +439,14 @@ export const Cart = () => {
                 <button
                   type="button"
                   onClick={() => setShowAddressModal(false)}
-                  className="px-4 py-2 text-slate-600 hover:bg-slate-100 rounded-xl"
+                  className="px-4 py-2 text-slate-600 hover:bg-slate-100 rounded-xl cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={submittingAddress}
-                  className="px-5 py-2.5 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-xl shadow-md"
+                  className="px-5 py-2.5 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-xl shadow-md cursor-pointer"
                 >
                   {submittingAddress ? 'Saving...' : 'Save Address'}
                 </button>

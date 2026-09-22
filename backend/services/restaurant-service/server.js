@@ -15,8 +15,8 @@ const app = express();
 const PORT = process.env.RESTAURANT_SERVICE_PORT || 8002;
 
 app.use(cors({ origin: true, credentials: true }));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 app.use(cookieParser());
 
 connectDB("Restaurant-Service");

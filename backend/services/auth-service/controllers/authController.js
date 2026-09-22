@@ -27,6 +27,14 @@ export const register = async (req, res, next) => {
       });
     }
 
+    const cleanedPhone = phone.toString().replace(/\D/g, "");
+    if (cleanedPhone.length > 10) {
+      return res.status(400).json({
+        success: false,
+        message: "Phone number cannot exceed 10 digits",
+      });
+    }
+
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({

@@ -132,7 +132,7 @@ export const DeliveryDashboard = () => {
 
         <button
           onClick={fetchAllData}
-          className="p-2.5 bg-white border border-slate-200 hover:bg-slate-50 rounded-xl text-slate-700 text-xs font-bold transition flex items-center gap-1.5 self-start"
+          className="p-2.5 bg-white cursor-pointer border border-slate-200 hover:bg-slate-50 rounded-xl text-slate-700 text-xs font-bold transition flex items-center gap-1.5 self-start"
         >
           <RefreshCw className="w-4 h-4 text-orange-600" />
           <span>Refresh Pool</span>
@@ -143,7 +143,7 @@ export const DeliveryDashboard = () => {
       <div className="flex items-center gap-3 mb-8">
         <button
           onClick={() => setActiveTab('available')}
-          className={`px-5 py-2.5 rounded-2xl text-xs font-bold transition flex items-center gap-2 ${
+          className={`px-5 py-2.5 rounded-2xl cursor-pointer text-xs font-bold transition flex items-center gap-2 ${
             activeTab === 'available'
               ? 'bg-orange-600 text-white shadow-lg shadow-orange-500/20'
               : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
@@ -155,7 +155,7 @@ export const DeliveryDashboard = () => {
 
         <button
           onClick={() => setActiveTab('my-deliveries')}
-          className={`px-5 py-2.5 rounded-2xl text-xs font-bold transition flex items-center gap-2 ${
+          className={`px-5 py-2.5 rounded-2xl cursor-pointer text-xs font-bold transition flex items-center gap-2 ${
             activeTab === 'my-deliveries'
               ? 'bg-orange-600 text-white shadow-lg shadow-orange-500/20'
               : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
@@ -240,7 +240,7 @@ export const DeliveryDashboard = () => {
                       <button
                         onClick={() => handleClaimOrder(order._id)}
                         disabled={isActing}
-                        className="w-full py-3 px-4 bg-orange-600 hover:bg-orange-700 text-white font-bold text-xs rounded-xl shadow-md transition flex items-center justify-center gap-2 disabled:opacity-70"
+                        className="w-full py-3 cursor-pointer px-4 bg-orange-600 hover:bg-orange-700 text-white font-bold text-xs rounded-xl shadow-md transition flex items-center justify-center gap-2 disabled:opacity-70"
                       >
                         {isActing ? (
                           <Loader2 className="w-4 h-4 animate-spin" />
@@ -319,7 +319,7 @@ export const DeliveryDashboard = () => {
                             )
                           }
                           disabled={isActing}
-                          className="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-md transition flex items-center justify-center gap-2"
+                          className="w-full cursor-pointer py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-md transition flex items-center justify-center gap-2"
                         >
                           {isActing ? (
                             <Loader2 className="w-4 h-4 animate-spin" />
@@ -340,7 +340,7 @@ export const DeliveryDashboard = () => {
                             )
                           }
                           disabled={isActing}
-                          className="w-full py-3 px-4 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs rounded-xl shadow-md transition flex items-center justify-center gap-2"
+                          className="w-full py-3 px-4 cursor-pointer bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs rounded-xl shadow-md transition flex items-center justify-center gap-2"
                         >
                           {isActing ? (
                             <Loader2 className="w-4 h-4 animate-spin" />
@@ -361,7 +361,7 @@ export const DeliveryDashboard = () => {
                             )
                           }
                           disabled={isActing}
-                          className="w-full py-3 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-xl shadow-md transition flex items-center justify-center gap-2"
+                          className="w-full cursor-pointer py-3 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-xl shadow-md transition flex items-center justify-center gap-2"
                         >
                           {isActing ? (
                             <Loader2 className="w-4 h-4 animate-spin" />
@@ -384,7 +384,7 @@ export const DeliveryDashboard = () => {
                                 )
                               }
                               disabled={isActing}
-                              className="w-full py-3 px-4 bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs rounded-xl shadow-md transition flex items-center justify-center gap-2"
+                              className="w-full cursor-pointer py-3 px-4 bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs rounded-xl shadow-md transition flex items-center justify-center gap-2"
                             >
                               {isActing ? (
                                 <Loader2 className="w-4 h-4 animate-spin" />
@@ -405,7 +405,7 @@ export const DeliveryDashboard = () => {
                                 )
                               }
                               disabled={isActing}
-                              className="w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-md transition flex items-center justify-center gap-2"
+                              className="w-full py-3 cursor-pointer px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-md transition flex items-center justify-center gap-2"
                             >
                               {isActing ? (
                                 <Loader2 className="w-4 h-4 animate-spin" />
@@ -419,7 +419,7 @@ export const DeliveryDashboard = () => {
                           <button
                             onClick={() => handleReportIssue(order._id)}
                             disabled={isActing}
-                            className="w-full py-2 px-3 bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold text-xs rounded-xl border border-rose-200 transition flex items-center justify-center gap-1.5"
+                            className="w-full py-2 px-3 cursor-pointer bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold text-xs rounded-xl border border-rose-200 transition flex items-center justify-center gap-1.5"
                           >
                             <AlertTriangle className="w-3.5 h-3.5" />
                             <span>Report Issue / Location Not Reachable</span>
@@ -437,7 +437,7 @@ export const DeliveryDashboard = () => {
                             )
                           }
                           disabled={isActing}
-                          className="w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs rounded-xl shadow-md transition flex items-center justify-center gap-2"
+                          className="w-full py-3 px-4 cursor-pointer bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs rounded-xl shadow-md transition flex items-center justify-center gap-2"
                         >
                           {isActing ? (
                             <Loader2 className="w-4 h-4 animate-spin" />

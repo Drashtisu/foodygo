@@ -32,8 +32,8 @@ export function App() {
   return (
     <ToastProvider>
       <AuthProvider>
-        <CartProvider>
-          <Router>
+        <Router>
+          <CartProvider>
             <div className="flex flex-col min-h-screen bg-slate-50 text-slate-900 selection:bg-orange-500 selection:text-white">
             
             
@@ -146,8 +146,8 @@ export function App() {
            
              
             </div>
-          </Router>
-        </CartProvider>
+          </CartProvider>
+        </Router>
       </AuthProvider>
     </ToastProvider>
   );

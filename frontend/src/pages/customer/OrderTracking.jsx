@@ -155,7 +155,7 @@ export const OrderTracking = () => {
           <button
             onClick={() => fetchTracking(true)}
             disabled={refreshing}
-            className="p-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-600 transition flex items-center gap-1.5 text-xs font-bold"
+            className="p-2.5 rounded-xl cursor-pointer border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-600 transition flex items-center gap-1.5 text-xs font-bold"
             title="Refresh Status"
           >
             <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin text-orange-600' : ''}`} />
@@ -164,7 +164,7 @@ export const OrderTracking = () => {
 
           <button
             onClick={handleOpenInvoice}
-            className="px-4 py-2.5 rounded-xl bg-orange-50 hover:bg-orange-100 text-orange-700 border border-orange-200 transition flex items-center gap-1.5 text-xs font-bold"
+            className="px-4 py-2.5 cursor-pointer rounded-xl bg-orange-50 hover:bg-orange-100 text-orange-700 border border-orange-200 transition flex items-center gap-1.5 text-xs font-bold"
           >
             <FileText className="w-4 h-4" />
             <span>Digital Invoice</span>
@@ -260,7 +260,7 @@ export const OrderTracking = () => {
                   placeholder="How was the taste, packaging, and food quality?"
                   value={restReview}
                   onChange={(e) => setRestReview(e.target.value)}
-                  className="w-full p-3 bg-white border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition"
+                  className="w-full p-3 cursor-pointer bg-white border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition"
                   rows={3}
                 />
               </div>
@@ -289,7 +289,7 @@ export const OrderTracking = () => {
                   placeholder="Was the delivery rider fast, polite, and careful with your food?"
                   value={delReview}
                   onChange={(e) => setDelReview(e.target.value)}
-                  className="w-full p-3 bg-white border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition"
+                  className="w-full p-3 cursor-pointer bg-white border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition"
                   rows={2}
                 />
               </div>
@@ -298,7 +298,7 @@ export const OrderTracking = () => {
                 <button
                   type="submit"
                   disabled={submittingReview}
-                  className="w-full py-3.5 px-5 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-2xl shadow-lg shadow-orange-500/25 transition flex items-center justify-center gap-2"
+                  className="w-full py-3.5 cursor-pointer px-5 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-2xl shadow-lg shadow-orange-500/25 transition flex items-center justify-center gap-2"
                 >
                   {submittingReview ? (
                     <Loader2 className="w-4 h-4 animate-spin" />

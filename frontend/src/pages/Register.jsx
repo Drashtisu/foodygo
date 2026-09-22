@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 import { UtensilsCrossed, Lock, Mail, User, Phone, Eye, EyeOff, Loader2, Store, Bike, Headset, Motorbike } from 'lucide-react';
 
 export const Register = () => {
@@ -14,10 +15,17 @@ export const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const { register } = useAuth();
+  const { showToast } = useToast();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    if (name === 'phone') {
+      const numeric = value.replace(/\D/g, '').slice(0, 10);
+      setFormData({ ...formData, phone: numeric });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
   const handleRoleSelect = (selectedRole) => {
@@ -26,6 +34,10 @@ export const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (formData.phone.length !== 10) {
+      showToast('Please enter a valid 10-digit phone number', 'error');
+      return;
+    }
     try {
       setLoading(true);
       const newUser = await register(formData);
@@ -50,19 +62,17 @@ export const Register = () => {
     { id: 'delivery', label: 'Delivery',
       
         icon: Motorbike },
-    { id: 'support', label: 'Support',
-
-        icon: Headset },
+    
   ];
 
   return (
     <div className="min-h-[85vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-6 bg-white p-8 sm:p-10 rounded-3xl shadow-xl shadow-slate-100 border border-slate-100">
         <div className="text-center">
-          <div className="w-14 h-14 mx-auto rounded-2xl bg-orange-600 flex items-center justify-center text-white shadow-lg shadow-orange-500/20 mb-4">
+          <div className="w-14 h-14 mx-auto rounded-2xl bg-orange-600 flex items-center justify-center text-white shadow-lg shadow-orange-500/20 mb-4 cursor-pointer" >
             <UtensilsCrossed className="w-7 h-7" />
           </div>
-          <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+          <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight cursor-pointer">
             Join FoodyGo
           </h2>
           <p className="mt-1 text-sm text-slate-500">
@@ -86,7 +96,7 @@ export const Register = () => {
                     key={r.id}
                     type="button"
                     onClick={() => handleRoleSelect(r.id)}
-                    className={`p-3 rounded-2xl border text-left transition flex items-center gap-2.5 ${
+                    className={`p-3 rounded-2xl  cursor-pointer border text-left transition flex items-center gap-2.5 ${
                       isSelected
                         ? 'border-orange-500 bg-orange-50/50 text-orange-900 ring-2 ring-orange-500/20'
                         : 'border-slate-200 bg-white hover:bg-slate-50 text-slate-700'
@@ -113,7 +123,7 @@ export const Register = () => {
             <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
               Full Name
             </label>
-            <div className="relative">
+            <div className="relative ">
               <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                 <User className="w-4 h-4" />
               </div>
@@ -124,7 +134,7 @@ export const Register = () => {
                 value={formData.name}
                 onChange={handleChange}
                 placeholder="John Doe"
-                className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition"
+                className="w-full cursor-pointer pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition"
               />
             </div>
           </div>
@@ -144,7 +154,7 @@ export const Register = () => {
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="name@example.com"
-                className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition"
+                className="w-full cursor-pointer pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition"
               />
             </div>
           </div>
@@ -161,10 +171,13 @@ export const Register = () => {
                 type="tel"
                 name="phone"
                 required
+                maxLength={10}
+                pattern="[0-9]{10}"
+                title="Please enter a 10-digit phone number"
                 value={formData.phone}
                 onChange={handleChange}
                 placeholder="9876543210"
-                className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition"
+                className="w-full pl-10 cursor-pointer pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition"
               />
             </div>
           </div>
@@ -185,12 +198,12 @@ export const Register = () => {
                 value={formData.password}
                 onChange={handleChange}
                 placeholder="At least 6 characters"
-                className="w-full pl-10 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition"
+                className="w-full cursor-pointer pl-10 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600"
+                className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 cursor-pointer"
               >
                 {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               </button>
@@ -200,7 +213,7 @@ export const Register = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full mt-2 py-3 px-4 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-xl shadow-lg shadow-orange-500/25 transition flex items-center justify-center gap-2 disabled:opacity-75"
+            className="w-full mt-2 py-3 px-4 bg-orange-600 hover:bg-orange-700 cursor-pointer  text-white font-bold rounded-xl shadow-lg shadow-orange-500/25 transition flex items-center justify-center gap-2 disabled:opacity-75"
           >
             {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
             Create {formData.role.charAt(0).toUpperCase() + formData.role.slice(1)} Account

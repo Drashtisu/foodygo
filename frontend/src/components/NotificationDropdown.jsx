@@ -21,7 +21,7 @@ export const NotificationDropdown = () => {
         setUnreadCount(res.unreadCount || 0);
       }
     } catch {
-      // ignore
+   
     } finally {
       setLoading(false);
     }
@@ -30,13 +30,13 @@ export const NotificationDropdown = () => {
   useEffect(() => {
     if (isAuthenticated) {
       fetchNotifications();
-      // Poll notifications every 20 seconds
+
       const interval = setInterval(fetchNotifications, 20000);
       return () => clearInterval(interval);
     }
   }, [isAuthenticated]);
 
-  // Close on outside click
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -56,7 +56,7 @@ export const NotificationDropdown = () => {
       );
       setUnreadCount((prev) => Math.max(0, prev - 1));
     } catch {
-      // ignore
+     
     }
   };
 
@@ -66,7 +66,7 @@ export const NotificationDropdown = () => {
       setNotifications((prev) => prev.map((n) => ({ ...n, isRead: true })));
       setUnreadCount(0);
     } catch {
-      // ignore
+     
     }
   };
 
@@ -76,7 +76,7 @@ export const NotificationDropdown = () => {
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="relative p-2.5 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-xl transition focus:outline-none"
+        className="relative p-2.5 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-xl transition focus:outline-none cursor-pointer"
         title="Notifications"
       >
         <Bell className="w-5 h-5" />
@@ -101,7 +101,7 @@ export const NotificationDropdown = () => {
             {unreadCount > 0 && (
               <button
                 onClick={handleMarkAllRead}
-                className="text-xs text-orange-600 hover:text-orange-700 font-medium flex items-center gap-1"
+                className="text-xs text-orange-600 hover:text-orange-700 font-medium flex items-center gap-1 cursor-pointer"
               >
                 <Check className="w-3.5 h-3.5" />
                 Mark all read
@@ -140,12 +140,13 @@ export const NotificationDropdown = () => {
                       {new Date(n.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} • {new Date(n.createdAt).toLocaleDateString()}
                     </div>
                   </div>
+                 
 
                   {!n.isRead && (
                     <button
                       onClick={(e) => handleMarkRead(n._id, e)}
                       title="Mark as read"
-                      className="p-1 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded transition"
+                      className="p-1 text-slate-400 hover:text-emerald-  hover:bg-emerald-50 rounded transition cursor-pointer"
                     >
                       <Check className="w-4 h-4" />
                     </button>

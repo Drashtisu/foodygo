@@ -163,14 +163,14 @@ export const RestaurantDashboard = () => {
         <div className="flex items-center gap-2.5">
           <button
             onClick={fetchOrders}
-            className="p-2.5 bg-white border border-slate-200 hover:bg-slate-50 rounded-xl text-slate-700 text-xs font-bold transition flex items-center gap-1.5"
+            className="p-2.5 bg-white   cursor-pointer border border-slate-200 hover:bg-slate-50 rounded-xl text-slate-700 text-xs font-bold transition flex items-center gap-1.5"
           >
             <RefreshCw className="w-4 h-4 text-orange-600" />
             <span>Refresh</span>
           </button>
           <Link
             to="/restaurant/menu"
-            className="px-4 py-2.5 bg-orange-600 hover:bg-orange-700 text-white font-bold text-xs rounded-xl shadow-md transition"
+            className="px-4 py-2.5 bg-orange-600 cursor-pointer hover:bg-orange-700 text-white font-bold text-xs rounded-xl shadow-md transition"
           >
             Manage Menu Items
           </Link>
@@ -183,7 +183,7 @@ export const RestaurantDashboard = () => {
           <button
             key={tab.value}
             onClick={() => setStatusFilter(tab.value)}
-            className={`px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition ${
+            className={`px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap cursor-pointer transition ${
               statusFilter === tab.value
                 ? 'bg-orange-600 text-white shadow-md shadow-orange-500/20'
                 : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
@@ -290,14 +290,14 @@ export const RestaurantDashboard = () => {
                       <button
                         onClick={() => handleReject(order._id)}
                         disabled={isActing}
-                        className="py-2.5 px-3 bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold text-xs rounded-xl transition flex items-center justify-center gap-1"
+                        className="py-2.5 cursor-pointer px-3 bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold text-xs rounded-xl transition flex items-center justify-center gap-1"
                       >
                         <XCircle className="w-3.5 h-3.5" /> Decline
                       </button>
                       <button
                         onClick={() => handleAccept(order._id)}
                         disabled={isActing}
-                        className="py-2.5 px-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-md transition flex items-center justify-center gap-1"
+                        className="py-2.5 px-3 cursor-pointer bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-md transition flex items-center justify-center gap-1"
                       >
                         {isActing ? (
                           <Loader2 className="w-3.5 h-3.5 animate-spin" />
@@ -313,7 +313,7 @@ export const RestaurantDashboard = () => {
                     <button
                       onClick={() => handleStartPreparing(order._id)}
                       disabled={isActing}
-                      className="w-full py-2.5 px-4 bg-orange-600 hover:bg-orange-700 text-white font-bold text-xs rounded-xl shadow-md transition flex items-center justify-center gap-1.5"
+                      className="w-full py-2.5 px-4 cursor-pointer bg-orange-600 hover:bg-orange-700 text-white font-bold text-xs rounded-xl shadow-md transition flex items-center justify-center gap-1.5"
                     >
                       {isActing ? (
                         <Loader2 className="w-3.5 h-3.5 animate-spin" />
@@ -328,7 +328,7 @@ export const RestaurantDashboard = () => {
                     <button
                       onClick={() => handleMarkReady(order._id)}
                       disabled={isActing}
-                      className="w-full py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-md transition flex items-center justify-center gap-1.5"
+                      className="w-full py-2.5 px-4 cursor-pointer bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-md transition flex items-center justify-center gap-1.5"
                     >
                       {isActing ? (
                         <Loader2 className="w-3.5 h-3.5 animate-spin" />
