@@ -24,7 +24,7 @@ export const Home = () => {
 
   const cuisines = [
     'All',
-    'Italian',
+    'Italian',                      
     'Indian',
     'Chinese',
     'Mexican',
@@ -195,7 +195,7 @@ export const Home = () => {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {restaurants.map((rest) => {
+            {restaurants.map((rest) => {  
               const cuisinesList = Array.isArray(rest.cuisine)
                 ? rest.cuisine
                 : [rest.cuisine].filter(Boolean);
@@ -206,6 +206,15 @@ export const Home = () => {
                   to={`/restaurant/${rest._id}`}
                   className="group bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-xl hover:shadow-orange-500/10 hover:border-orange-200 transition-all duration-300 flex flex-col"
                 >
+
+
+                  <div className="">
+                    <input type="text" />
+                    <label htmlFor="">
+ this is conetent  from the  admin side make sure do not
+                      This  is  from the support system
+                    </label>
+                  </div>
                 
                   <div className="relative h-48 bg-slate-100 overflow-hidden">
                     <img
