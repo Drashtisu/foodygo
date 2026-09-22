@@ -109,14 +109,14 @@ export const Navbar = () => {
   return (
     <header className="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 gap-4">
+        <div className="flex items-center justify-between h-16 md:gap-4">
           
           <Link to="/" className="flex items-center gap-2.5 shrink-0 group">
             <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-orange-600 to-amber-500 flex items-center justify-center shadow-lg shadow-orange-500/20 group-hover:scale-105 transition-transform">
               <UtensilsCrossed className="w-5 h-5 text-white" />
             </div>
             <div>
-              <span className="text-xl font-black tracking-tight text-slate-900 flex items-center gap-1">
+              <span className="md:text-xl font-black tracking-tight text-slate-900 flex items-center gap-1">
                 Foody<span className="text-orange-600">Go</span>
               </span>
              
@@ -144,7 +144,7 @@ export const Navbar = () => {
           </nav>
 
          
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-1 sm:gap-3">
            
             {(!role || role === 'customer') && (
               <Link
@@ -228,14 +228,14 @@ export const Navbar = () => {
               <div className="flex items-center gap-2">
                 <Link
                   to="/login"
-                  className="px-3.5 py-2 text-sm font-semibold text-slate-700 hover:text-slate-900 rounded-xl hover:bg-slate-100 transition"
+                  className="px-3.5 py-2 text-xs md:text-sm font-semibold text-slate-700 hover:text-slate-900 rounded-xl hover:bg-slate-100 transition"
                 >
                  
                   Sign In
                 </Link>
                 <Link
                   to="/register"
-                  className="px-4 py-2 text-sm font-semibold text-white bg-orange-600 hover:bg-orange-700 rounded-xl transition shadow-md shadow-orange-500/20"
+                  className="px-4 py-2  text-xs md:text-sm font-semibold text-white bg-orange-600 hover:bg-orange-700 rounded-xl transition shadow-md shadow-orange-500/20"
                 >
                   Sign Up
                 </Link>

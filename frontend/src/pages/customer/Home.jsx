@@ -208,13 +208,7 @@ export const Home = () => {
                 >
 
 
-                  <div className="">
-                    <input type="text" />
-                    <label htmlFor="">
- this is conetent  from the  admin side make sure do not
-                      This  is  from the support system
-                    </label>
-                  </div>
+                
                 
                   <div className="relative h-48 bg-slate-100 overflow-hidden">
                     <img
