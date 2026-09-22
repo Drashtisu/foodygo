@@ -4,7 +4,7 @@ Full-stack food delivery application with a React (Vite) frontend and an Event-D
 
 ---
 
-## 📁 Repository Structure
+##  Repository Structure
 
 ```
 foodfloods/
@@ -27,7 +27,7 @@ foodfloods/
 
 ---
 
-## 💻 Local Development Setup
+##  Local Development Setup
 
 ### 1. Backend Setup
 ```bash
@@ -53,7 +53,7 @@ The frontend will be active at: `http://localhost:5173`
 
 ---
 
-## 🚀 How to Push to GitHub
+##  How to Push to GitHub
 
 1. Initialize Git in the project root:
    ```bash
@@ -73,7 +73,7 @@ The frontend will be active at: `http://localhost:5173`
 
 ---
 
-## 🌐 Deploying Backend on Render
+##  Deploying Backend on Render
 
 1. Go to [Render.com](https://render.com) and create a **New Web Service**.
 2. Connect your GitHub repository.
@@ -99,7 +99,7 @@ The frontend will be active at: `http://localhost:5173`
 
 ---
 
-## ⚡ Deploying Frontend on Vercel
+##  Deploying Frontend on Vercel
 
 1. Go to [Vercel.com](https://vercel.com) and click **Add New > Project**.
 2. Import your GitHub repository.

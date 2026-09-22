@@ -32,7 +32,7 @@ export const Footer = () => {
             </div>
           </div>
 
-          {/* Microservices list */}
+         
           <div>
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-900 mb-3">
               Microservices (8)

@@ -154,7 +154,7 @@ export const Cart = () => {
                 const itemId = item.menuItemId?._id || item.menuItemId;
                 const itemImg =
                   item.menuItemId?.imageUrl ||
-                  'https://images.unsplash.com/photo-154606990asasas1-ba9599a7e63c?w=200&auto=format&fit=crop&q=80';
+                  'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8';
 
                 return (
                   <div

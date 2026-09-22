@@ -135,7 +135,7 @@ export const MyOrders = () => {
           })}
         </div>
       )}
-    </div>
+    </div> 
   );
 };
 

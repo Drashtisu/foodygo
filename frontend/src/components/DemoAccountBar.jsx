@@ -55,11 +55,11 @@ export const DemoAccountBar = () => {
     setLoadingRole(acc.role);
     const password = 'Password@123';
     try {
-      // First attempt login
+     
       try {
         await login(acc.email, password);
       } catch {
-        // If login failed, register automatically
+      
         await register({
           name: acc.name,
           email: acc.email,
