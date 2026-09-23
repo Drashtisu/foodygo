@@ -146,20 +146,18 @@ export const Navbar = () => {
          
           <div className="flex items-center gap-1 sm:gap-3">
            
-            {(!role || role === 'customer') && (
-              <Link
-                to="/cart"
-                className="relative p-2.5 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-xl transition"
-                title="View Cart"
-              >
-                <ShoppingCart className="w-5 h-5" />
-                {cartCount > 0 && (
-                  <span className="absolute top-1.5 right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-orange-600 text-[10px] font-bold text-white ring-2 ring-white animate-pulse">
-                    {cartCount}
-                  </span>
-                )}
-              </Link>
-            )}
+            <Link
+              to="/cart"
+              className="relative p-2.5 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-xl transition"
+              title="View Cart"
+            >
+              <ShoppingCart className="w-5 h-5" />
+              {cartCount > 0 && (
+                <span className="absolute top-1.5 right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-orange-600 text-[10px] font-bold text-white ring-2 ring-white animate-pulse">
+                  {cartCount}
+                </span>
+              )}
+            </Link>
 
          
             <NotificationDropdown />
@@ -202,16 +200,14 @@ export const Navbar = () => {
                       My Profile
                     </Link>
 
-                    {role === 'customer' && (
-                      <Link
-                        to="/my-orders"
-                        onClick={() => setUserDropdownOpen(false)}
-                        className="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 transition"
-                      >
-                        <Clock className="w-4 h-4 text-slate-400" />
-                        My Orders
-                      </Link>
-                    )}
+                    <Link
+                      to="/my-orders"
+                      onClick={() => setUserDropdownOpen(false)}
+                      className="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 transition"
+                    >
+                      <Clock className="w-4 h-4 text-slate-400" />
+                      My Orders
+                    </Link>
 
                     <button
                       onClick={handleLogout}

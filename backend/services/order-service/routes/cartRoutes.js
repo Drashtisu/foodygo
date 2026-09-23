@@ -6,12 +6,12 @@ import {
   removeFromCart,
   clearCart,
 } from "../controllers/cartController.js";
-import { protect, authorize } from "../../../shared/middleware/auth.js";
+import { protect } from "../../../shared/middleware/auth.js";
 
 const router = express.Router();
 
+// Allow any authenticated user to manage their cart
 router.use(protect);
-router.use(authorize("customer"));
 
 router.get("/", getCart);
 router.post("/add", addToCart);

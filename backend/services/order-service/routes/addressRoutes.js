@@ -5,12 +5,12 @@ import {
   updateAddress,
   deleteAddress,
 } from "../controllers/addressController.js";
-import { protect, authorize } from "../../../shared/middleware/auth.js";
+import { protect } from "../../../shared/middleware/auth.js";
 
 const router = express.Router();
 
+// Allow any authenticated user to manage their delivery addresses
 router.use(protect);
-router.use(authorize("customer"));
 
 router.post("/", addAddress);
 router.get("/", getUserAddresses);

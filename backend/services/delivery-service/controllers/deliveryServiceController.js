@@ -2,6 +2,7 @@ import Order, { ORDER_STATUS } from "../../../models/Order.js";
 import User from "../../../models/User.js";
 import Notification from "../../../models/Notification.js";
 import SupportTicket from "../../../models/SupportTicket.js";
+import { dispatchNotification } from "../../../shared/utils/notificationDispatcher.js";
 import { publishDeliveryEvent } from "../kafka/producer.js";
 import { KAFKA_EVENTS } from "../../../shared/constants/topics.js";
 
@@ -117,7 +118,7 @@ export const assignDeliveryBoy = async (req, res, next) => {
     );
     await order.save();
 
-    await Notification.create({
+    await dispatchNotification({
       recipientId: deliveryBoyId,
       recipientRole: "delivery",
       orderId: order._id,
@@ -178,7 +179,7 @@ export const acceptDelivery = async (req, res, next) => {
     );
     await order.save();
 
-    await Notification.create({
+    await dispatchNotification({
       recipientId: order.customerId,
       recipientRole: "customer",
       orderId: order._id,
@@ -377,7 +378,7 @@ export const foodOutForDelivery = async (req, res, next) => {
     );
     await order.save();
 
-    await Notification.create({
+    await dispatchNotification({
       recipientId: order.customerId,
       recipientRole: "customer",
       orderId: order._id,
@@ -437,7 +438,7 @@ export const reachedCustomerLocation = async (req, res, next) => {
     );
     await order.save();
 
-    await Notification.create({
+    await dispatchNotification({
       recipientId: order.customerId,
       recipientRole: "customer",
       orderId: order._id,
@@ -522,7 +523,7 @@ export const reportDeliveryIssue = async (req, res, next) => {
       status: "OPEN",
     });
 
-    await Notification.create({
+    await dispatchNotification({
       recipientId: order.customerId,
       recipientRole: "customer",
       orderId: order._id,
@@ -533,7 +534,7 @@ export const reportDeliveryIssue = async (req, res, next) => {
 
     const supportUsers = await User.find({ role: "support", isActive: true });
     for (const sup of supportUsers) {
-      await Notification.create({
+      await dispatchNotification({
         recipientId: sup._id,
         recipientRole: "support",
         orderId: order._id,
@@ -637,7 +638,7 @@ export const markOrderDelivered = async (req, res, next) => {
     );
     await order.save();
 
-    await Notification.create({
+    await dispatchNotification({
       recipientId: order.customerId,
       recipientRole: "customer",
       orderId: order._id,

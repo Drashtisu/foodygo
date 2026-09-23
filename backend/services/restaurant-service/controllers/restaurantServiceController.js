@@ -3,6 +3,7 @@ import Restaurant from "../../../models/Restaurant.js";
 import Notification from "../../../models/Notification.js";
 import Payment from "../../../models/Payment.js";
 import User from "../../../models/User.js";
+import { dispatchNotification } from "../../../shared/utils/notificationDispatcher.js";
 import { publishKitchenEvent } from "../kafka/producer.js";
 import { KAFKA_EVENTS } from "../../../shared/constants/topics.js";
 
@@ -84,7 +85,7 @@ export const acceptOrder = async (req, res, next) => {
     order.updateStatus(ORDER_STATUS.ACCEPTED, "Restaurant accepted the order.");
     await order.save();
 
-    await Notification.create({
+    await dispatchNotification({
       recipientId: order.customerId,
       recipientRole: "customer",
       orderId: order._id,
@@ -169,7 +170,7 @@ export const rejectOrder = async (req, res, next) => {
     );
     await order.save();
 
-    await Notification.create({
+    await dispatchNotification({
       recipientId: order.customerId,
       recipientRole: "customer",
       orderId: order._id,
@@ -223,7 +224,7 @@ export const startPreparing = async (req, res, next) => {
     order.updateStatus(ORDER_STATUS.PREPARING, "Kitchen has started preparing the food.");
     await order.save();
 
-    await Notification.create({
+    await dispatchNotification({
       recipientId: order.customerId,
       recipientRole: "customer",
       orderId: order._id,
@@ -287,7 +288,7 @@ export const markFoodReady = async (req, res, next) => {
     );
     await order.save();
 
-    await Notification.create({
+    await dispatchNotification({
       recipientId: order.customerId,
       recipientRole: "customer",
       orderId: order._id,

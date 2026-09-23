@@ -1,5 +1,5 @@
 import Notification from "../../../models/Notification.js";
-
+import { emitNotification } from "../socket/socketServer.js";
 
 export const getMyNotifications = async (req, res, next) => {
   try {
@@ -21,7 +21,6 @@ export const getMyNotifications = async (req, res, next) => {
     next(error);
   }
 };
-
 
 export const markAsRead = async (req, res, next) => {
   try {
@@ -54,7 +53,6 @@ export const markAsRead = async (req, res, next) => {
   }
 };
 
-
 export const markAllAsRead = async (req, res, next) => {
   try {
     await Notification.updateMany(
@@ -65,6 +63,45 @@ export const markAllAsRead = async (req, res, next) => {
     res.status(200).json({
       success: true,
       message: "All notifications marked as read",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+export const sendNotificationHandler = async (req, res, next) => {
+  try {
+    const { recipientId, recipientRole, orderId, title, message, type } = req.body;
+
+    if (!recipientId || !title || !message) {
+      return res.status(400).json({
+        success: false,
+        message: "recipientId, title, and message are required fields",
+      });
+    }
+
+    const notification = await Notification.create({
+      recipientId,
+      recipientRole: recipientRole || "customer",
+      orderId: orderId || null,
+      title,
+      message,
+      type: type || "ORDER_CONFIRMED",
+    });
+
+    // Populate orderId if present for client rich display
+    if (orderId) {
+      await notification.populate("orderId", "orderNumber orderStatus totalAmount");
+    }
+
+    // Real-time push via Socket.io
+    emitNotification(notification);
+
+    res.status(201).json({
+      success: true,
+      message: "Notification created and emitted in real-time",
+      data: notification,
     });
   } catch (error) {
     next(error);

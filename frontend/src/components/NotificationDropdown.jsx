@@ -1,42 +1,22 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Bell, Check, Clock, Info } from 'lucide-react';
-import { getMyNotifications, markAsRead, markAllAsRead } from '../api/notification';
+import { Bell, Check, Clock, Info, Wifi } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useNotifications } from '../context/NotificationContext';
 
 export const NotificationDropdown = () => {
   const { isAuthenticated } = useAuth();
+  const {
+    notifications,
+    unreadCount,
+    markAsRead,
+    markAllAsRead,
+    isConnected,
+  } = useNotifications();
+
   const [isOpen, setIsOpen] = useState(false);
-  const [notifications, setNotifications] = useState([]);
-  const [unreadCount, setUnreadCount] = useState(0);
-  const [loading, setLoading] = useState(false);
   const dropdownRef = useRef(null);
 
-  const fetchNotifications = async () => {
-    if (!isAuthenticated) return;
-    try {
-      setLoading(true);
-      const res = await getMyNotifications();
-      if (res?.success) {
-        setNotifications(res.data || []);
-        setUnreadCount(res.unreadCount || 0);
-      }
-    } catch {
-   
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      fetchNotifications();
-
-      const interval = setInterval(fetchNotifications, 20000);
-      return () => clearInterval(interval);
-    }
-  }, [isAuthenticated]);
-
-
+  // Close dropdown on click outside any where
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -49,25 +29,11 @@ export const NotificationDropdown = () => {
 
   const handleMarkRead = async (id, e) => {
     e.stopPropagation();
-    try {
-      await markAsRead(id);
-      setNotifications((prev) =>
-        prev.map((n) => (n._id === id ? { ...n, isRead: true } : n))
-      );
-      setUnreadCount((prev) => Math.max(0, prev - 1));
-    } catch {
-     
-    }
+    await markAsRead(id);
   };
 
   const handleMarkAllRead = async () => {
-    try {
-      await markAllAsRead();
-      setNotifications((prev) => prev.map((n) => ({ ...n, isRead: true })));
-      setUnreadCount(0);
-    } catch {
-     
-    }
+    await markAllAsRead();
   };
 
   if (!isAuthenticated) return null;
@@ -77,11 +43,11 @@ export const NotificationDropdown = () => {
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="relative p-2.5 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-xl transition focus:outline-none cursor-pointer"
-        title="Notifications"
+        title="Notifications (Real-Time)"
       >
         <Bell className="w-5 h-5" />
         {unreadCount > 0 && (
-          <span className="absolute top-1.5 right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-rose-500 text-[10px] font-bold text-white ring-2 ring-white">
+          <span className="absolute top-1.5 right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-rose-500 text-[10px] font-bold text-white ring-2 ring-white animate-pulse">
             {unreadCount > 9 ? '9+' : unreadCount}
           </span>
         )}
@@ -92,6 +58,17 @@ export const NotificationDropdown = () => {
           <div className="flex items-center justify-between px-4 pb-3 border-b border-slate-100">
             <div className="flex items-center gap-2">
               <h3 className="font-bold text-slate-900 text-sm">Notifications</h3>
+              {isConnected ? (
+                <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                  Live
+                </span>
+              ) : (
+                <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-[10px] font-medium bg-amber-50 text-amber-700 border border-amber-200">
+                  <Wifi className="w-2.5 h-2.5" />
+                  Connecting
+                </span>
+              )}
               {unreadCount > 0 && (
                 <span className="px-2 py-0.5 text-xs font-semibold bg-rose-100 text-rose-700 rounded-full">
                   {unreadCount} new
@@ -125,7 +102,13 @@ export const NotificationDropdown = () => {
                 >
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
-                      <h4 className={`text-xs font-semibold truncate ${!n.isRead ? 'text-slate-900 font-bold' : 'text-slate-700'}`}>
+                      <h4
+                        className={`text-xs truncate ${
+                          !n.isRead
+                            ? 'text-slate-900 font-bold'
+                            : 'text-slate-700 font-semibold'
+                        }`}
+                      >
                         {n.title}
                       </h4>
                       {!n.isRead && (
@@ -137,16 +120,19 @@ export const NotificationDropdown = () => {
                     </p>
                     <div className="flex items-center gap-1 text-[10px] text-slate-400 mt-2">
                       <Clock className="w-3 h-3" />
-                      {new Date(n.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} • {new Date(n.createdAt).toLocaleDateString()}
+                      {new Date(n.createdAt).toLocaleTimeString([], {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                      })}{' '}
+                      • {new Date(n.createdAt).toLocaleDateString()}
                     </div>
                   </div>
-                 
 
                   {!n.isRead && (
                     <button
                       onClick={(e) => handleMarkRead(n._id, e)}
                       title="Mark as read"
-                      className="p-1 text-slate-400 hover:text-emerald-  hover:bg-emerald-50 rounded transition cursor-pointer"
+                      className="p-1 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded transition cursor-pointer"
                     >
                       <Check className="w-4 h-4" />
                     </button>

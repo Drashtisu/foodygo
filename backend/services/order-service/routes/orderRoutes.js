@@ -11,8 +11,12 @@ const router = express.Router();
 
 router.use(protect);
 
-router.get("/my-orders", authorize("customer"), getCustomerOrders);
+// Allow any authenticated user to view orders they placed
+router.get("/my-orders", getCustomerOrders);
+
+// Support staff can view all orders
 router.get("/", authorize("support"), getAllOrders);
+
 router.get("/:id/track", trackOrder);
 router.get("/:id", getOrderDetails);
 

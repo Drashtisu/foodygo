@@ -5,6 +5,7 @@ import { getInvoice } from '../../api/payment';
 import { submitReview, getReviewByOrder } from '../../api/review';
 import { StarRating } from '../../components/StarRating';
 import { useToast } from '../../context/ToastContext';
+import { useNotifications } from '../../context/NotificationContext';
 import {
   Clock,
   CheckCircle2,
@@ -22,6 +23,7 @@ import {
 export const OrderTracking = () => {
   const { id } = useParams();
   const { showToast } = useToast();
+  const { notifications } = useNotifications();
 
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -66,9 +68,20 @@ export const OrderTracking = () => {
 
   useEffect(() => {
     fetchTracking();
-    const interval = setInterval(() => fetchTracking(false), 10000);
+    const interval = setInterval(() => fetchTracking(false), 20000);
     return () => clearInterval(interval);
   }, [id]);
+
+  // Instantly refresh tracking if a real-time notification for this order arrives
+  useEffect(() => {
+    if (notifications.length > 0) {
+      const latest = notifications[0];
+      const notifOrderId = (latest?.orderId?._id || latest?.orderId)?.toString();
+      if (notifOrderId && notifOrderId === id) {
+        fetchTracking(false);
+      }
+    }
+  }, [notifications, id]);
 
   const handleOpenInvoice = async () => {
     try {

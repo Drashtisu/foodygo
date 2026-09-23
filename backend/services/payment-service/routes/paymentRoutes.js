@@ -5,15 +5,16 @@ import {
   retryPayment,
   getInvoice,
 } from "../controllers/paymentController.js";
-import { protect, authorize } from "../../../shared/middleware/auth.js";
+import { protect } from "../../../shared/middleware/auth.js";
 
 const router = express.Router();
 
+// Allow any authenticated user to process payment for their order
 router.use(protect);
 
-router.post("/choose-option", authorize("customer"), choosePaymentOption);
-router.post("/process", authorize("customer"), processPayment);
-router.post("/retry", authorize("customer"), retryPayment);
+router.post("/choose-option", choosePaymentOption);
+router.post("/process", processPayment);
+router.post("/retry", retryPayment);
 router.get("/invoice/:orderId", getInvoice);
 
 export default router;

@@ -2,6 +2,7 @@ import SupportTicket from "../../../models/SupportTicket.js";
 import Order, { ORDER_STATUS } from "../../../models/Order.js";
 import Notification from "../../../models/Notification.js";
 import Payment from "../../../models/Payment.js";
+import { dispatchNotification } from "../../../shared/utils/notificationDispatcher.js";
 
 const generateTicketNumber = () =>
   `TKT-${Date.now()}-${Math.floor(1000 + Math.random() * 9000)}`;
@@ -228,7 +229,7 @@ export const cancelOrderFromSupport = async (req, res, next) => {
       }
     );
 
-    await Notification.create({
+    await dispatchNotification({
       recipientId: order.customerId,
       recipientRole: "customer",
       orderId: order._id,

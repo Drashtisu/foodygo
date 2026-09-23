@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ToastProvider } from './context/ToastContext';
 import { AuthProvider } from './context/AuthContext';
+import { NotificationProvider } from './context/NotificationContext';
 import { CartProvider } from './context/CartContext';
 
 // import DemoAccountBar from './components/DemoAccountBar';
@@ -32,8 +33,9 @@ export function App() {
   return (
     <ToastProvider>
       <AuthProvider>
-        <Router>
-          <CartProvider>
+        <NotificationProvider>
+          <Router>
+            <CartProvider>
             <div className="flex flex-col min-h-screen bg-slate-50 text-slate-900 selection:bg-orange-500 selection:text-white">
             
             
@@ -50,7 +52,7 @@ export function App() {
                   <Route
                     path="/cart"
                     element={
-                      <ProtectedRoute allowedRoles={['customer']}>
+                      <ProtectedRoute>
                         <Cart />
                       </ProtectedRoute>
                     }
@@ -58,7 +60,7 @@ export function App() {
                   <Route
                     path="/checkout"
                     element={
-                      <ProtectedRoute allowedRoles={['customer']}>
+                      <ProtectedRoute>
                         <Checkout />
                       </ProtectedRoute>
                     }
@@ -74,7 +76,7 @@ export function App() {
                   <Route
                     path="/my-orders"
                     element={
-                      <ProtectedRoute allowedRoles={['customer']}>
+                      <ProtectedRoute>
                         <MyOrders />
                       </ProtectedRoute>
                     }
@@ -148,6 +150,7 @@ export function App() {
             </div>
           </CartProvider>
         </Router>
+        </NotificationProvider>
       </AuthProvider>
     </ToastProvider>
   );

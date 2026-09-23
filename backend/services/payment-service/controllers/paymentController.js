@@ -5,6 +5,7 @@ import Payment from "../../../models/Payment.js";
 import Invoice from "../../../models/Invoice.js";
 import Notification from "../../../models/Notification.js";
 import Restaurant from "../../../models/Restaurant.js";
+import { dispatchNotification } from "../../../shared/utils/notificationDispatcher.js";
 import { publishPaymentEvent } from "../kafka/producer.js";
 import { KAFKA_EVENTS } from "../../../shared/constants/topics.js";
 
@@ -234,7 +235,7 @@ export const processPayment = async (req, res, next) => {
     );
     await order.save();
 
-    await Notification.create({
+    await dispatchNotification({
       recipientId: req.user._id,
       recipientRole: "customer",
       orderId: order._id,
@@ -245,7 +246,7 @@ export const processPayment = async (req, res, next) => {
 
     const restaurant = await Restaurant.findById(order.restaurantId);
     if (restaurant) {
-      await Notification.create({
+      await dispatchNotification({
         recipientId: restaurant.ownerId,
         recipientRole: "restaurant",
         orderId: order._id,
